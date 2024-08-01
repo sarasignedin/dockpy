@@ -1,0 +1,28 @@
+# escape-room-lab/docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: postgres-client
+    networks:
+      - escape-room
+    volumes:
+      - ./data/data.csv:/usr/share/data.csv
+      - ./data/data2.csv:/usr/share/data2.csv
+    environment:
+      - POSTGRES_PASSWORD=yourpassword
+
+  db:
+    image: postgres:16.3
+    container_name: postgres-server
+    networks:
+      - escape-room
+    environment:
+      - POSTGRES_PASSWORD=yourpassword
+    ports:
+      - "5432:5432"
+
+networks:
+  escape-room:
+    driver: bridge
